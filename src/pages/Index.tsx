@@ -1,11 +1,18 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { FlappyBird } from "@/components/game/FlappyBird";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gradient-to-b from-game-sky-light to-game-sky-dark flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-6xl font-bold text-white drop-shadow-lg mb-2 floating-animation">
+            🐦 Flappy Bird Pro
+          </h1>
+          <p className="text-xl text-white/90 drop-shadow-md">
+            The ultimate flappy experience!
+          </p>
+        </div>
+        <FlappyBird />
       </div>
     </div>
   );

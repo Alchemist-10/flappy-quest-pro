@@ -2,41 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Flappy Bird Pro Design System - All colors MUST be HSL */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    /* Game Colors */
+    --sky-light: 200 100% 85%;
+    --sky-dark: 220 100% 70%;
+    --pipe-green: 120 60% 40%;
+    --pipe-green-dark: 120 60% 30%;
+    --pipe-highlight: 120 40% 60%;
+    --bird-yellow: 45 100% 60%;
+    --bird-orange: 30 100% 55%;
+    --ground-brown: 30 40% 35%;
+    
+    /* UI Colors */
+    --background: 200 100% 95%;
+    --foreground: 220 20% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
+    --card-foreground: 220 20% 15%;
+    
+    --primary: 120 60% 40%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 45 100% 60%;
+    --secondary-foreground: 220 20% 15%;
+    
+    --accent: 30 100% 55%;
+    --accent-foreground: 0 0% 100%;
+    
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 20% 50%;
+    
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 220 20% 85%;
+    --input: 220 20% 85%;
+    --ring: 120 60% 40%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* Game Gradients */
+    --gradient-sky: linear-gradient(180deg, hsl(var(--sky-light)) 0%, hsl(var(--sky-dark)) 100%);
+    --gradient-bird: linear-gradient(135deg, hsl(var(--bird-yellow)) 0%, hsl(var(--bird-orange)) 100%);
+    --gradient-pipe: linear-gradient(90deg, hsl(var(--pipe-green-dark)) 0%, hsl(var(--pipe-green)) 50%, hsl(var(--pipe-highlight)) 100%);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --bounce-smooth: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +115,78 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    user-select: none;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  /* Game UI Components */
+  .game-button {
+    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-lg font-semibold;
+    @apply bg-primary text-primary-foreground shadow-lg;
+    @apply hover:scale-105 active:scale-95;
+    @apply transition-all duration-200 ease-out;
+    background: var(--gradient-pipe);
+  }
+  
+  .game-button-secondary {
+    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-lg font-semibold;
+    @apply bg-secondary text-secondary-foreground shadow-lg;
+    @apply hover:scale-105 active:scale-95;
+    @apply transition-all duration-200 ease-out;
+    background: var(--gradient-bird);
+  }
+  
+  .score-display {
+    @apply text-4xl font-bold text-white drop-shadow-lg;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .game-canvas {
+    @apply rounded-lg shadow-2xl border-4 border-white/20;
+    background: var(--gradient-sky);
+  }
+  
+  .floating-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .pulse-glow {
+    @apply animate-pulse;
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.5);
+  }
+}
+
+@layer utilities {
+  /* Game Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes bird-flap {
+    0% { transform: rotateZ(-10deg); }
+    50% { transform: rotateZ(5deg); }
+    100% { transform: rotateZ(-10deg); }
+  }
+  
+  @keyframes pipe-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100px); }
+  }
+  
+  @keyframes score-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  .animate-bird-flap {
+    animation: bird-flap 0.3s ease-in-out;
+  }
+  
+  .animate-score-pop {
+    animation: score-pop 0.3s var(--bounce-smooth);
   }
 }

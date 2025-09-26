@@ -47,6 +47,17 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Game-specific colors
+        game: {
+          "sky-light": "hsl(var(--sky-light))",
+          "sky-dark": "hsl(var(--sky-dark))",
+          "pipe-green": "hsl(var(--pipe-green))",
+          "pipe-green-dark": "hsl(var(--pipe-green-dark))",
+          "pipe-highlight": "hsl(var(--pipe-highlight))",
+          "bird-yellow": "hsl(var(--bird-yellow))",
+          "bird-orange": "hsl(var(--bird-orange))",
+          "ground-brown": "hsl(var(--ground-brown))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
