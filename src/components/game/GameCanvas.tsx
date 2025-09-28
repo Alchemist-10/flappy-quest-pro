@@ -33,13 +33,13 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
   });
 
   // Game constants
-  const CANVAS_WIDTH = 800;
+  const CANVAS_WIDTH = 1200
   const CANVAS_HEIGHT = 600;
   const BIRD_SIZE = 30;
   const PIPE_WIDTH = 80;
   const PIPE_GAP = 180;
-  const GRAVITY = 0.6;
-  const JUMP_FORCE = -12;
+  const GRAVITY = 0.1;
+  const JUMP_FORCE = -3;
   const PIPE_SPEED = 3;
 
   const resetGame = useCallback(() => {
@@ -56,7 +56,7 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
     const minTopHeight = 50;
     const maxTopHeight = CANVAS_HEIGHT - PIPE_GAP - 100;
     const topHeight = Math.random() * (maxTopHeight - minTopHeight) + minTopHeight;
-    
+
     return {
       x,
       topHeight,
@@ -100,7 +100,7 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
     if (!ctx) return;
 
     const gameData = gameDataRef.current;
-    
+
     // Update bird physics
     gameData.bird.velocity += GRAVITY;
     gameData.bird.y += gameData.bird.velocity;
@@ -114,7 +114,7 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
 
     gameData.pipes.forEach(pipe => {
       pipe.x -= PIPE_SPEED;
-      
+
       // Check if bird passed pipe
       if (!pipe.passed && pipe.x + PIPE_WIDTH < gameData.bird.x) {
         pipe.passed = true;
@@ -162,14 +162,14 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
       pipeGradient.addColorStop(0, "hsl(120, 60%, 30%)");
       pipeGradient.addColorStop(0.5, "hsl(120, 60%, 40%)");
       pipeGradient.addColorStop(1, "hsl(120, 40%, 60%)");
-      
+
       ctx.fillStyle = pipeGradient;
-      
+
       // Top pipe
       ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.topHeight);
       // Bottom pipe
       ctx.fillRect(pipe.x, pipe.bottomY, PIPE_WIDTH, CANVAS_HEIGHT - pipe.bottomY);
-      
+
       // Pipe caps
       ctx.fillStyle = "hsl(120, 40%, 60%)";
       ctx.fillRect(pipe.x - 5, pipe.topHeight - 30, PIPE_WIDTH + 10, 30);
@@ -184,17 +184,17 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
     ctx.save();
     ctx.translate(gameData.bird.x + BIRD_SIZE / 2, gameData.bird.y + BIRD_SIZE / 2);
     ctx.rotate((gameData.bird.rotation * Math.PI) / 180);
-    
+
     // Bird gradient
     const birdGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, BIRD_SIZE / 2);
     birdGradient.addColorStop(0, "hsl(45, 100%, 60%)");
     birdGradient.addColorStop(1, "hsl(30, 100%, 55%)");
-    
+
     ctx.fillStyle = birdGradient;
     ctx.beginPath();
     ctx.arc(0, 0, BIRD_SIZE / 2, 0, Math.PI * 2);
     ctx.fill();
-    
+
     // Bird eye
     ctx.fillStyle = "white";
     ctx.beginPath();
@@ -204,7 +204,7 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
     ctx.beginPath();
     ctx.arc(7, -5, 2, 0, Math.PI * 2);
     ctx.fill();
-    
+
     // Bird beak
     ctx.fillStyle = "hsl(20, 80%, 50%)";
     ctx.beginPath();
@@ -213,7 +213,7 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
     ctx.lineTo(BIRD_SIZE / 2 + 5, 2);
     ctx.closePath();
     ctx.fill();
-    
+
     ctx.restore();
 
     gameLoopRef.current = requestAnimationFrame(gameLoop);
@@ -259,11 +259,13 @@ export const GameCanvas = ({ gameState, onGameOver, onScoreUpdate }: GameCanvasP
   }, [gameState, gameLoop, resetGame]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={CANVAS_WIDTH}
-      height={CANVAS_HEIGHT}
-      className="game-canvas cursor-pointer"
-    />
+    <div className="game-canvas-container ">
+      <canvas
+        ref={canvasRef}
+        width={CANVAS_WIDTH}
+        height={CANVAS_HEIGHT}
+        className="game-canvas cursor-pointer"
+      />
+    </div>
   );
 };
